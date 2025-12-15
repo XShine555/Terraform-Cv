@@ -1,0 +1,25 @@
+# Configuración de AWS
+aws_region = "us-east-1"
+
+# Configuración de dominio
+domain_name            = "tudominio.com"      # CAMBIAR: Tu dominio en Cloudflare
+intermediate_subdomain = "aws10"              # Subdominio intermedio (Hosted Zone)
+subdomain              = "cv"                 # Subdominio final
+
+# Configuración de Cloudflare
+cloudflare_zone_id    = "TU_ZONE_ID_AQUI"                    # CAMBIAR: Zone ID de Cloudflare
+cloudflare_api_token  = "TU_CLOUDFLARE_TOKEN_AQUI"           # CAMBIAR: API Token de Cloudflare
+
+# Configuración de Amplify
+amplify_app_name       = "cv-portfolio"
+amplify_repository_url = "https://github.com/usuario/repo"   # CAMBIAR: URL de tu repositorio
+amplify_github_token   = "ghp_XXXXXXXXXXXXX"                 # CAMBIAR: Token de GitHub (temporal)
+amplify_branch         = "master"                            # Rama a desplegar
+
+# Tags personalizados (opcional)
+tags = {
+  Project     = "CV-Infrastructure"
+  ManagedBy   = "Terraform"
+  Environment = "production"
+  Owner       = "TuNombre"                    # CAMBIAR: Tu nombre
+}
