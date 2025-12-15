@@ -4,9 +4,9 @@ variable "table_name" {
 }
 
 variable "enable_point_in_time_recovery" {
-  description = "Habilitar recuperación point-in-time"
+  description = "Habilitar recuperación point-in-time (backups continuos de 35 días)"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "tags" {
