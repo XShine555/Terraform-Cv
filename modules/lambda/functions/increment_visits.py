@@ -4,7 +4,7 @@ import os
 from decimal import Decimal
 
 dynamodb = boto3.resource('dynamodb')
-table_name = os.environ['DYNAMODB_TABLE']
+table_name = os.environ.get('DYNAMODB_TABLE', 'visits-table')
 table = dynamodb.Table(table_name)
 
 def lambda_handler(event, context):

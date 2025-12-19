@@ -4,7 +4,7 @@ import os
 from decimal import Decimal
 
 dynamodb = boto3.resource('dynamodb')
-table_name = os.environ['DYNAMODB_TABLE']
+table_name = os.environ.get('DYNAMODB_TABLE', 'visits-table')
 table = dynamodb.Table(table_name)
 
 def lambda_handler(event, context):
@@ -23,6 +23,8 @@ def lambda_handler(event, context):
             visit_count = 0
         else:
             visit_count = int(response['Item'].get('visit_count', 0))
+            # Asegurar que el contador nunca sea negativo
+            visit_count = max(0, visit_count)
         
         return {
             'statusCode': 200,
