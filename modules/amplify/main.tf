@@ -14,7 +14,7 @@ resource "aws_amplify_app" "app" {
         build:
           commands: []
       artifacts:
-        baseDirectory: .
+        baseDirectory: public
         files:
           - '**/*'
       cache:
