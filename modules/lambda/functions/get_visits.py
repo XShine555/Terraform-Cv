@@ -3,9 +3,18 @@ import boto3
 import os
 from decimal import Decimal
 
-dynamodb = boto3.resource('dynamodb')
-table_name = os.environ.get('DYNAMODB_TABLE', 'visits-table')
-table = dynamodb.Table(table_name)
+# Inicialización lazy de DynamoDB
+_dynamodb = None
+_table = None
+
+def get_table():
+    global _dynamodb, _table
+    if _table is None:
+        region = os.environ.get('AWS_DEFAULT_REGION', 'us-east-1')
+        _dynamodb = boto3.resource('dynamodb', region_name=region)
+        table_name = os.environ.get('DYNAMODB_TABLE', 'visits-table')
+        _table = _dynamodb.Table(table_name)
+    return _table
 
 def lambda_handler(event, context):
     """
@@ -16,6 +25,7 @@ def lambda_handler(event, context):
         page_id = event.get('pathParameters', {}).get('page_id', 'home')
         
         # Consultar DynamoDB
+        table = get_table()
         response = table.get_item(Key={'page_id': page_id})
         
         # Si la página no existe, retornar 0

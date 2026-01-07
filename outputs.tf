@@ -13,9 +13,14 @@ output "full_domain" {
   value       = module.route53.full_domain
 }
 
-output "cloudflare_ns_records" {
-  description = "NS records creados en Cloudflare"
-  value       = module.cloudflare.ns_records
+output "cloudflare_ns_record" {
+  description = "NS record creado en Cloudflare"
+  value       = module.cloudflare.ns_record
+}
+
+output "cloudflare_subdomain_delegation" {
+  description = "Información de la delegación del subdominio en Cloudflare"
+  value       = module.cloudflare.subdomain_delegation
 }
 
 output "acm_certificate_arn" {

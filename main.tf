@@ -44,6 +44,9 @@ module "amplify" {
   domain_name     = module.route53.full_domain
   tags            = var.tags
 
+  # Activar deployment automático al crear/actualizar
+  enable_auto_deployment = true
+
   environment_variables = {
     REPOSITORY_URL = var.amplify_repository_url
     SUBDOMAIN      = var.subdomain

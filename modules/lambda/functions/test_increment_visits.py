@@ -12,8 +12,9 @@ class TestIncrementVisits(unittest.TestCase):
         """Configuración inicial para cada test"""
         os.environ['DYNAMODB_TABLE'] = 'test-table'
     
-    @patch('increment_visits.table')
-    def test_increment_visits_new_page(self, mock_table):
+    @patch('increment_visits.get_table')
+    def test_increment_visits_new_page(self, mock_get_table):
+        mock_table = mock_get_table.return_value
         """Test: Incrementar visitas en una página nueva (debe empezar en 1)"""
         # Configurar mock - primera visita
         mock_table.update_item.return_value = {
@@ -40,8 +41,9 @@ class TestIncrementVisits(unittest.TestCase):
         call_args = mock_table.update_item.call_args
         self.assertEqual(call_args[1]['Key'], {'page_id': 'new-page'})
     
-    @patch('increment_visits.table')
-    def test_increment_visits_existing_page(self, mock_table):
+    @patch('increment_visits.get_table')
+    def test_increment_visits_existing_page(self, mock_get_table):
+        mock_table = mock_get_table.return_value
         """Test: Incrementar visitas en una página existente"""
         mock_table.update_item.return_value = {
             'Attributes': {
@@ -61,8 +63,9 @@ class TestIncrementVisits(unittest.TestCase):
         self.assertEqual(body['visit_count'], 43)
         self.assertGreaterEqual(body['visit_count'], 1)
     
-    @patch('increment_visits.table')
-    def test_increment_never_negative(self, mock_table):
+    @patch('increment_visits.get_table')
+    def test_increment_never_negative(self, mock_get_table):
+        mock_table = mock_get_table.return_value
         """Test: El contador NUNCA puede ser negativo después de incrementar"""
         # Simular múltiples incrementos
         test_cases = [1, 5, 10, 100, 1000]
@@ -83,8 +86,9 @@ class TestIncrementVisits(unittest.TestCase):
                 self.assertGreater(body['visit_count'], 0,
                                   "Después de incrementar, el contador debe ser mayor que 0")
     
-    @patch('increment_visits.table')
-    def test_increment_from_zero(self, mock_table):
+    @patch('increment_visits.get_table')
+    def test_increment_from_zero(self, mock_get_table):
+        mock_table = mock_get_table.return_value
         """Test: Incrementar desde 0 debe dar 1"""
         mock_table.update_item.return_value = {
             'Attributes': {'visit_count': 1}
@@ -98,8 +102,9 @@ class TestIncrementVisits(unittest.TestCase):
         # Asegurar que no es negativo
         self.assertGreaterEqual(body['visit_count'], 0)
     
-    @patch('increment_visits.table')
-    def test_increment_atomic_operation(self, mock_table):
+    @patch('increment_visits.get_table')
+    def test_increment_atomic_operation(self, mock_get_table):
+        mock_table = mock_get_table.return_value
         """Test: Verificar que la operación es atómica"""
         mock_table.update_item.return_value = {
             'Attributes': {'visit_count': 1}
@@ -116,8 +121,9 @@ class TestIncrementVisits(unittest.TestCase):
         # Verificar que :start es 0 (nunca negativo)
         self.assertEqual(call_args[1]['ExpressionAttributeValues'][':start'], 0)
     
-    @patch('increment_visits.table')
-    def test_increment_default_page_id(self, mock_table):
+    @patch('increment_visits.get_table')
+    def test_increment_default_page_id(self, mock_get_table):
+        mock_table = mock_get_table.return_value
         """Test: Sin page_id debe usar 'home' por defecto"""
         mock_table.update_item.return_value = {
             'Attributes': {'visit_count': 1}
@@ -133,8 +139,9 @@ class TestIncrementVisits(unittest.TestCase):
         call_args = mock_table.update_item.call_args
         self.assertEqual(call_args[1]['Key'], {'page_id': 'home'})
     
-    @patch('increment_visits.table')
-    def test_increment_cors_headers(self, mock_table):
+    @patch('increment_visits.get_table')
+    def test_increment_cors_headers(self, mock_get_table):
+        mock_table = mock_get_table.return_value
         """Test: Verificar headers CORS"""
         mock_table.update_item.return_value = {
             'Attributes': {'visit_count': 1}
@@ -148,8 +155,9 @@ class TestIncrementVisits(unittest.TestCase):
         self.assertIn('Access-Control-Allow-Methods', headers)
         self.assertIn('POST', headers['Access-Control-Allow-Methods'])
     
-    @patch('increment_visits.table')
-    def test_increment_large_numbers(self, mock_table):
+    @patch('increment_visits.get_table')
+    def test_increment_large_numbers(self, mock_get_table):
+        mock_table = mock_get_table.return_value
         """Test: Incrementar con números grandes"""
         mock_table.update_item.return_value = {
             'Attributes': {'visit_count': 999999}
