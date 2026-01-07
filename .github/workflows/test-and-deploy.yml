@@ -129,13 +129,6 @@ jobs:
           TF_VAR_amplify_repository_url: ${{ secrets.AMPLIFY_REPOSITORY_URL }}
           TF_VAR_amplify_branch: ${{ secrets.AMPLIFY_BRANCH }}
           TF_VAR_aws_region: ${{ env.AWS_REGION }}
-          TF_VAR_domain_name: ${{ secrets.DOMAIN_NAME }}
-          TF_VAR_intermediate_subdomain: ${{ secrets.INTERMEDIATE_SUBDOMAIN }}
-          TF_VAR_subdomain: ${{ secrets.SUBDOMAIN }}
-          TF_VAR_amplify_app_name: ${{ secrets.AMPLIFY_APP_NAME }}
-          TF_VAR_amplify_repository_url: ${{ secrets.AMPLIFY_REPOSITORY_URL }}
-          TF_VAR_amplify_branch: ${{ secrets.AMPLIFY_BRANCH }}
-          TF_VAR_aws_region: ${{ env.AWS_REGION }}
       
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
@@ -143,6 +136,13 @@ jobs:
           TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           TF_VAR_amplify_github_token: ${{ secrets.AMPLIFY_GITHUB_TOKEN }}
           TF_VAR_cloudflare_zone_id: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          TF_VAR_domain_name: ${{ secrets.DOMAIN_NAME }}
+          TF_VAR_intermediate_subdomain: ${{ secrets.INTERMEDIATE_SUBDOMAIN }}
+          TF_VAR_subdomain: ${{ secrets.SUBDOMAIN }}
+          TF_VAR_amplify_app_name: ${{ secrets.AMPLIFY_APP_NAME }}
+          TF_VAR_amplify_repository_url: ${{ secrets.AMPLIFY_REPOSITORY_URL }}
+          TF_VAR_amplify_branch: ${{ secrets.AMPLIFY_BRANCH }}
+          TF_VAR_aws_region: ${{ env.AWS_REGION }}
       
       - name: Deploy Lambda Functions
         run: |
