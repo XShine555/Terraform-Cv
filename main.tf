@@ -37,12 +37,12 @@ module "acm" {
 module "amplify" {
   source = "./modules/amplify"
 
-  app_name        = var.amplify_app_name
-  repository_url  = var.amplify_repository_url
-  github_token    = var.amplify_github_token
-  branch_name     = var.amplify_branch
-  domain_name     = module.route53.full_domain
-  tags            = var.tags
+  app_name       = var.amplify_app_name
+  repository_url = var.amplify_repository_url
+  github_token   = var.amplify_github_token
+  branch_name    = var.amplify_branch
+  domain_name    = module.route53.full_domain
+  tags           = var.tags
 
   # Activar deployment automático al crear/actualizar
   enable_auto_deployment = true
@@ -68,11 +68,11 @@ module "dynamodb" {
 module "lambda" {
   source = "./modules/lambda"
 
-  function_name_prefix        = var.lambda_function_prefix
-  lambda_execution_role_name  = var.lambda_execution_role
-  dynamodb_table_name         = module.dynamodb.table_name
-  dynamodb_table_arn          = module.dynamodb.table_arn
-  tags                        = var.tags
+  function_name_prefix       = var.lambda_function_prefix
+  lambda_execution_role_name = var.lambda_execution_role
+  dynamodb_table_name        = module.dynamodb.table_name
+  dynamodb_table_arn         = module.dynamodb.table_arn
+  tags                       = var.tags
 
   depends_on = [module.dynamodb]
 }

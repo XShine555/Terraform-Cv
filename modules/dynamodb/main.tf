@@ -1,12 +1,12 @@
 # Tabla DynamoDB para contador de visitas
 resource "aws_dynamodb_table" "page_visits" {
-  name           = var.table_name
-  billing_mode   = "PAY_PER_REQUEST"  # On-demand pricing
-  hash_key       = "page_id"
+  name         = var.table_name
+  billing_mode = "PAY_PER_REQUEST" # On-demand pricing
+  hash_key     = "page_id"
 
   attribute {
     name = "page_id"
-    type = "S"  # String
+    type = "S" # String
   }
 
   # Habilitar point-in-time recovery (opcional pero recomendado)

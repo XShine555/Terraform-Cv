@@ -14,11 +14,11 @@ data "archive_file" "get_visits_zip" {
 resource "aws_lambda_function" "get_visits" {
   filename         = data.archive_file.get_visits_zip.output_path
   function_name    = "${var.function_name_prefix}-get-visits"
-  role            = data.aws_iam_role.lab_role.arn
-  handler         = "get_visits.lambda_handler"
+  role             = data.aws_iam_role.lab_role.arn
+  handler          = "get_visits.lambda_handler"
   source_code_hash = data.archive_file.get_visits_zip.output_base64sha256
-  runtime         = "python3.11"
-  timeout         = 10
+  runtime          = "python3.11"
+  timeout          = 10
 
   environment {
     variables = {
@@ -46,11 +46,11 @@ data "archive_file" "increment_visits_zip" {
 resource "aws_lambda_function" "increment_visits" {
   filename         = data.archive_file.increment_visits_zip.output_path
   function_name    = "${var.function_name_prefix}-increment-visits"
-  role            = data.aws_iam_role.lab_role.arn
-  handler         = "increment_visits.lambda_handler"
+  role             = data.aws_iam_role.lab_role.arn
+  handler          = "increment_visits.lambda_handler"
   source_code_hash = data.archive_file.increment_visits_zip.output_base64sha256
-  runtime         = "python3.11"
-  timeout         = 10
+  runtime          = "python3.11"
+  timeout          = 10
 
   environment {
     variables = {

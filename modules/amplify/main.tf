@@ -101,7 +101,7 @@ resource "null_resource" "trigger_deployment" {
 
   provisioner "local-exec" {
     command = "aws amplify start-job --app-id ${aws_amplify_app.app.id} --branch-name ${aws_amplify_branch.master.branch_name} --job-type RELEASE --region ${data.aws_region.current.name}"
-    
+
     # Ignorar errores si ya hay un job corriendo
     on_failure = continue
   }
