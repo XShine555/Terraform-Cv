@@ -46,6 +46,16 @@ notepad terraform.tfvars
 ### **3. Desplegar**
 
 ```powershell
+# Crear S3 y DynamoDb
+aws s3 mb s3://terraform-state-iker-cv-2026 --region us-east-1
+
+aws dynamodb create-table `
+  --table-name terraform-state-lock `
+  --attribute-definitions AttributeName=LockID,AttributeType=S `
+  --key-schema AttributeName=LockID,KeyType=HASH `
+  --billing-mode PAY_PER_REQUEST `
+  --region us-east-1
+
 # Inicializar
 terraform init
 
@@ -54,9 +64,6 @@ terraform apply -target="module.route53"
 
 # Cloudflare
 terraform apply -target="module.cloudflare"
-
-# Esperar DNS (2-3 min)
-Start-Sleep -Seconds 180
 
 # Todo lo demás
 terraform apply
